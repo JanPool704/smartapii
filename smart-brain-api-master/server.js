@@ -8,14 +8,15 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 const db = knex({
   // connect to your own database here
   client: 'pg',
   connection: {
-    host : process.env.database_URL,
+  connectionSTRING: ProcessingInstruction.ENV.DATABASE_URL,
     ssl:true,
   }
+
 });
 
 const app = express();
@@ -23,7 +24,7 @@ const app = express();
 app.use(cors())
 app.use(bodyParser.json());
 
-app.get('/', (req, res)=> { res.send('its working') })
+app.get('/', (req, res)=> { res.send('its workin') })
 app.post('/signin', signin.handleSignin(db, bcrypt))
 app.post('/register', (req, res) => { register.handleRegister(req, res, db, bcrypt) })
 app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db)})
